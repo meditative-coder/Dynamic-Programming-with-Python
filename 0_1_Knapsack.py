@@ -32,14 +32,34 @@ def knapsack_memoize(weights, profits, W, n):
 # Completely omit out the recursive calls, thus does not ends to stack overflow
 def knapsack_tabulate(weights, profits, W, n):
     t = [[-1]*(W+1)]*(n+1)
-    # This table is filled in 2 steps
+    # This table is filled in 2 steps   
     
-    ## 1. Intialization, similar to defining base case in recursion
+    for i in range(n+1):
+        for j in range(0, W+1):
+            ## 1. Intialization, similar to defining base case in recursion
+            if i==0 or j==0:
+                t[i][j] = 0
+
+            ## 2. Convert recursive calls to iterative    
+            ''' t[i][j] defines max_profit given first (i-1) elements and weight=j '''
+            ''' t[n][W] defines max_profit given n elements and W weight'''
+            if weights[i-1] <= j:
+                t[i][j] = max(
+                    profits[i-1]+t[i-1][j-weights[i-1]],
+                    t[i-1][j]
+                )
+            else:
+                t[i][j] = t[i-1][j]
+    return t[n][W]
 
 
-    ## 2. Convert recursive calls to iterative
-    
-    ''' t[i][j] defines max_profit given first (i-1) elements and weight=j '''
-    ''' t[n][W] defines max_profit given n elements and W weight'''
 
 
+if __name__ == "__main__":
+    weights = [1,3,4,5]
+    profits = [1,4,5,7]
+    W = 7
+    n = 4
+    print("Recursive: ", knapsack_recursive(weights, profits, W, n))
+    print("Memoization: ", knapsack_memoize(weights, profits, W, n))
+    print("Tabulation: ", knapsack_tabulate(weights, profits, W, n))
