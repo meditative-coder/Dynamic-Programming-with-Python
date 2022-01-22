@@ -16,7 +16,7 @@ def knapsack_tabulate(arr, sum, n):
     
 
     #                             Base Condition
-    # if no item is given, we can achieve the sum
+    # if no item is given, we can't achieve the sum
     for j in range(0, sum+1):
         t[0][j] = False
 
