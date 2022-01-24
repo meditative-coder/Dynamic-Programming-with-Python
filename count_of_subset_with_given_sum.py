@@ -28,7 +28,6 @@ def knapsack_tabulate(arr, sum, n):
                 t[i][j] = t[i-1][j-arr[i-1]] + t[i-1][j] # take or not
             else:
                 t[i][j] = t[i-1][j]
-    print(t)
     return t[n][sum]
 
 if __name__ == "__main__":
